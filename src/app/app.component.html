@@ -1,0 +1,75 @@
+<section id="index" [ngClass]="indexTheme">
+  <div id="todoIndex" class="todoDiv" *ngIf="!isEditModeOpen">
+    <div
+      class="todoTitle" id="indexTitle">
+      <div class="todoInlineTitle">
+        <h1>代辦事項</h1>
+        <div class="todoSpan">
+          <span (click)="changeEditMode()">
+            <i class="fas fa-pencil-alt"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="todoInlineDiv">
+      <form>
+        <ul
+          id="indexUl" *ngFor="let i of todoList">
+          <li class="todoItem">
+            <input type="checkbox" [name]="i.id" [id]="i.id"
+              [checked]="i.isComplete" (change)="changeComplete($event)"
+            />
+            <label [for]="i.id">
+              <div class="todoInlineItem {{ i.isComplete ? 'complete' : '' }}">
+                <p>{{ i.title }}</p>
+                <span *ngIf="i.isComplete"><i class="fas fa-check"></i></span>
+              </div>
+            </label>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
+  <div id="todoEdit" class="todoDiv" *ngIf="isEditModeOpen">
+    <div class="todoTitle" id="editTitle">
+      <div class="todoInlineTitle">
+        <h1>代辦事項</h1>
+        <div class="todoSpan">
+          <span (click)="openColorModal()">
+            <i class="fas fa-palette"></i>
+          </span>
+          <span (click)="changeEditMode()">
+            <i class="fas fa-check"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="todoInlineDiv">
+      <ul id="editUl">
+        <li id="addItem" class="todoItem" (click)="openAddModal()">
+          <div class="todoInlineItem">
+            <div>
+              <p><i class="fas fa-plus-circle"></i>添加項目</p>
+            </div>
+          </div>
+        </li>
+        <li class="todoItem" *ngFor="let i of todoList">
+          <div class="todoInlineItem {{ i.isComplete ? 'complete' : '' }}">
+            <div>
+              <p>{{ i.title }}</p>
+              <span (click)="deleteTodoItem(i.id)">
+                <i class="fas fa-trash"></i>
+              </span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<app-addModal *ngIf="isAddModalOpen" [indexTheme]="indexTheme" (openModal)="openAddModal()" (addList)="addTodoItem($event)" >
+</app-addModal>
+<app-colorModal *ngIf="isColorModalOpen"
+  (openModal)="openColorModal()" (changeThemeColor)="changeColor($event)" >
+</app-colorModal>

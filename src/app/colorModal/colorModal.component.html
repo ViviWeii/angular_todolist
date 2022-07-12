@@ -1,0 +1,18 @@
+<div id="colorModal" *ngIf="!isColorModalOpen">
+  <div class="colorModalDiv">
+    <span (click)="openColorModal()"><i class="fas fa-times"></i></span>
+    <p>更換顏色</p>
+    <div class="buttonDiv">
+      <input type="button" id="red" (click)='changeColor("indexRedTheme")' alt="紅色" />
+      <input type="button" id="orange" (click)='changeColor("indexOrangeTheme")' alt="橘色" />
+      <input type="button" id="yellow" (click)='changeColor("indexYellowTheme")' alt="預設黃色" />
+      <input type="button" id="green" (click)='changeColor("indexGreenTheme")' alt="綠色" />
+      <input type="button" id="blue" (click)='changeColor("indexBlueTheme")' alt="藍色" />
+      <input type="button" id="indigo" (click)='changeColor("indexIndigoTheme")' alt="靛色" />
+      <input type="button" id="purple" (click)='changeColor("indexPurpleTheme")' alt="紫色" />
+      <input type="button" id="pink" (click)='changeColor("indexPinkTheme")' alt="粉色" />
+      <input type="button" id="gray" (click)='changeColor("indexGrayTheme")' alt="灰色" />
+      <input type="button" id="black" (click)='changeColor("indexBlackTheme")' alt="黑色" />
+    </div>
+  </div>
+</div>
