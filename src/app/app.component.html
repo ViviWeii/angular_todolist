@@ -1,4 +1,4 @@
-<section id="index" [ngClass]="indexTheme">
+<section id="index" [ngClass]="storeIndexTheme">
   <div id="todoIndex" class="todoDiv" *ngIf="!isEditModeOpen">
     <div
       class="todoTitle" id="indexTitle">
@@ -14,7 +14,7 @@
     <div class="todoInlineDiv">
       <form>
         <ul
-          id="indexUl" *ngFor="let i of todoList">
+          id="indexUl" *ngFor="let i of storeTodoList">
           <li class="todoItem">
             <input type="checkbox" [name]="i.id" [id]="i.id"
               [checked]="i.isComplete" (change)="changeComplete($event)"
@@ -53,12 +53,22 @@
             </div>
           </div>
         </li>
-        <li class="todoItem" *ngFor="let i of todoList">
+        <li class="todoItem" *ngFor="let i of storeTodoList">
           <div class="todoInlineItem {{ i.isComplete ? 'complete' : '' }}">
             <div>
-              <p>{{ i.title }}</p>
-              <span (click)="deleteTodoItem(i.id)">
+              <input type="checkbox" [name]="i.id" [id]="i.id" [checked]="i.isEditTitleOpen" (change)="openOrCloseEdit($event)">
+              <label [for]="i.id">
+                <p *ngIf="!i.isEditTitleOpen">{{i.title}}</p>
+                <input *ngIf="i.isEditTitleOpen" type="text" [(ngModel)]="changeTitle">
+              </label>
+              <span *ngIf="!i.isEditTitleOpen" (click)="deleteTodoItem(i.id)">
                 <i class="fas fa-trash"></i>
+              </span>
+              <span *ngIf="i.isEditTitleOpen" class="editSpan">
+                  <i class="fas fa-check" (click)="editTodoTitleComplete(i.title)"></i>
+                <label [for]="i.id">
+                  <i class="fas fa-times"></i>
+                </label>
               </span>
             </div>
           </div>
@@ -68,8 +78,8 @@
   </div>
 </section>
 
-<app-addModal *ngIf="isAddModalOpen" [indexTheme]="indexTheme" (openModal)="openAddModal()" (addList)="addTodoItem($event)" >
+<app-addModal *ngIf="isAddModalOpen" [storeIndexTheme]="storeIndexTheme" (openModal)="openAddModal()" (addList)="addTodoItem($event)">
 </app-addModal>
 <app-colorModal *ngIf="isColorModalOpen"
-  (openModal)="openColorModal()" (changeThemeColor)="changeColor($event)" >
+  (openModal)="openColorModal()" (changeThemeColor)="changeColor($event)">
 </app-colorModal>

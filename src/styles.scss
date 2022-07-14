@@ -63,6 +63,17 @@ input[type="checkbox"] {
     display: none;
 }
 
+input[type="text"] {
+
+    &:focus {
+        outline: none;
+    }
+
+    &:disabled {
+        color: #000;
+    }
+}
+
 .todoTitle {
     background-color: $dark-yellow;
     width: 60%;
@@ -104,9 +115,10 @@ input[type="checkbox"] {
         }
 
         .complete {
-            color: gray;
 
-            p {
+            p,
+            input {
+                color: gray;
                 text-decoration: line-through;
             }
         }
@@ -117,6 +129,16 @@ input[type="checkbox"] {
             line-height: 60px;
             position: relative;
             cursor: pointer;
+
+            input {
+                position: absolute;
+                top: 14px;
+                left: 5%;
+                height: 30px;
+                line-height: 30px;
+                border: none;
+                font-size: 20px;
+            }
 
             p {
                 position: absolute;
@@ -130,15 +152,19 @@ input[type="checkbox"] {
                 right: 5%;
             }
 
+            .editSpan {
+                width: 50px;
+            }
+
             .fas {
                 cursor: pointer;
             }
 
-            .fa-plus-circle {
-                margin-right: 20px;
+            .fa-check {
+                margin-right: 25%;
             }
 
-            .fa-sort {
+            .fa-plus-circle {
                 margin-right: 20px;
             }
         }
@@ -639,14 +665,15 @@ input[type="checkbox"] {
 
 // 黑
 .indexBlackTheme {
-    color: #fff;
 
     .todoTitle {
         background-color: $dark-black;
+        color: #fff;
     }
 
     .todoInlineDiv {
         background-color: $black;
+        color: #fff;
 
         .todoItem {
 
@@ -662,6 +689,7 @@ input[type="checkbox"] {
 
             #addBtn {
                 background-color: $black;
+                color: #fff;
 
                 &:hover {
                     background-color: $hover-black;
@@ -731,7 +759,7 @@ input[type="checkbox"] {
         .colorModalDiv {
             margin-top: 20%;
             width: 80%;
-            height: 380px;
+            height: 420px;
 
             .buttonDiv {
                 width: 80%;

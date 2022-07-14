@@ -10,15 +10,14 @@ export class AddModalComponent {
 
   isAddModalOpen = false;
   inputValue = '';
-  list = { id: Math.round(Math.random() * 100), title: '', isComplete: false };
+  list = { id: Math.round(Math.random() * 100), title: '', isComplete: false, isEditTitleOpen: false };
 
-  @Input() indexTheme = '';
+  @Input() storeIndexTheme = '';
   @Output() openModal = new EventEmitter<any>();
   @Output() addList = new EventEmitter<any>();
 
   openAddModal() {
     this.openModal.emit();
-    console.log(this.indexTheme)
   }
 
   addTodoItem() {
@@ -26,4 +25,5 @@ export class AddModalComponent {
     this.addList.emit(this.list);
     this.inputValue = '';
   }
+
 }

@@ -1,15 +1,14 @@
-<section [ngClass]="indexTheme">
-<div id="addModal" *ngIf="!isAddModalOpen">
-  <form>
-    <div class="addModalDiv">
-      <span (click)="openAddModal()"><i class="fas fa-times"></i></span>
-      <p>新增項目</p>
-      <input type="text" name="todoTitle" id="todoTitle" [(ngModel)]="inputValue"/>
-      <div class="buttonDiv">
-        <input type="button" id="addBtn" value="新增" (click)="addTodoItem()"
-        />
+<section [ngClass]="storeIndexTheme">
+  <div id="addModal" *ngIf="!isAddModalOpen">
+    <form>
+      <div class="addModalDiv">
+        <span><i class="fas fa-times" (click)="openAddModal()"></i></span>
+        <p>新增項目</p>
+        <input type="text" name="todoTitle" id="todoTitle" [(ngModel)]="inputValue"/>
+        <div class="buttonDiv">
+          <input type="button" id="addBtn" value="新增" (click)="addTodoItem()"/>
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
 </section>

@@ -1,6 +1,6 @@
 <div id="colorModal" *ngIf="!isColorModalOpen">
   <div class="colorModalDiv">
-    <span (click)="openColorModal()"><i class="fas fa-times"></i></span>
+    <span><i class="fas fa-times" (click)="openColorModal()"></i></span>
     <p>更換顏色</p>
     <div class="buttonDiv">
       <input type="button" id="red" (click)='changeColor("indexRedTheme")' alt="紅色" />

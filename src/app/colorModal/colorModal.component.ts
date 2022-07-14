@@ -20,4 +20,5 @@ export class ColorModalComponent {
   changeColor(themeColor: string) {
     this.changeThemeColor.emit({color: themeColor});
   }
+  
 }
