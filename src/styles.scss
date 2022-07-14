@@ -1,3 +1,34 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material'as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$todoList-primary: mat.define-palette(mat.$indigo-palette);
+$todoList-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$todoList-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$todoList-theme: mat.define-light-theme((color: (primary: $todoList-primary,
+            accent: $todoList-accent,
+            warn: $todoList-warn,
+        )));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($todoList-theme);
+
 /* You can add global styles to this file, and also import other style files */
 $red: rgb(255, 172, 172);
 $hover-red: rgb(255, 162, 162);
@@ -47,6 +78,7 @@ $dark-black: rgb(0, 0, 0);
     margin: 0 auto;
     padding: 0;
     box-sizing: border-box;
+    user-select: none;
 }
 
 ul,
@@ -72,6 +104,29 @@ input[type="text"] {
     &:disabled {
         color: #000;
     }
+}
+
+.cdk-drag-preview {
+    text-align: center;
+    line-height: 60px;
+    font-size: 20px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.todoInlineDiv .cdk-drop-list-dragging .todoItem:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .todoTitle {
@@ -109,69 +164,131 @@ input[type="text"] {
     background-color: $yellow;
     overflow: overlay;
 
-    .todoItem {
-        &:hover {
-            background-color: $hover-yellow;
-        }
+    .indexUl {
+        .todoItem {
+            transition: all 0.3s;
 
-        .complete {
-
-            p,
-            input {
-                color: gray;
-                text-decoration: line-through;
+            &:hover {
+                background-color: $hover-yellow;
             }
-        }
 
-        .todoInlineItem {
-            font-size: 20px;
-            height: 60px;
-            line-height: 60px;
-            position: relative;
-            cursor: pointer;
+            .complete {
 
-            input {
-                position: absolute;
-                top: 14px;
-                left: 5%;
-                height: 30px;
-                line-height: 30px;
-                border: none;
+                p,
+                input {
+                    color: gray;
+                    text-decoration: line-through;
+                }
+            }
+
+            .todoInlineItem {
                 font-size: 20px;
-            }
-
-            p {
-                position: absolute;
-                top: 0;
-                left: 5%;
-            }
-
-            span {
-                position: absolute;
-                top: 0;
-                right: 5%;
-            }
-
-            .editSpan {
-                width: 50px;
-            }
-
-            .fas {
+                height: 60px;
+                line-height: 60px;
+                position: relative;
                 cursor: pointer;
+
+                p {
+                    position: absolute;
+                    top: 0;
+                    left: 5%;
+                }
+
+                span {
+                    position: absolute;
+                    top: 0;
+                    right: 5%;
+                }
+
+                .fas {
+                    cursor: pointer;
+                }
+
+                .fa-check {
+                    margin-right: 25%;
+                }
+            }
+        }
+    }
+
+    .editUl {
+
+        .todoItem {
+            transition: all 0.3s;
+
+            &:hover {
+                background-color: $hover-yellow;
             }
 
-            .fa-check {
-                margin-right: 25%;
+            .complete {
+
+                p,
+                input {
+                    color: gray;
+                    text-decoration: line-through;
+                }
             }
 
-            .fa-plus-circle {
-                margin-right: 20px;
+            .todoInlineItem {
+                font-size: 20px;
+                height: 60px;
+                line-height: 60px;
+                position: relative;
+                cursor: pointer;
+
+                input {
+                    position: absolute;
+                    top: 14px;
+                    left: 5%;
+                    height: 30px;
+                    line-height: 30px;
+                    border: none;
+                    font-size: 20px;
+                }
+
+                .addItemP {
+                    left: 5%;
+                }
+
+                p {
+                    position: absolute;
+                    top: 0;
+                    left: 10%;
+                }
+
+                span {
+                    position: absolute;
+                    top: 0;
+                    right: 5%;
+                }
+
+                .editSpan {
+                    width: 50px;
+                }
+
+                .fas {
+                    cursor: pointer;
+                }
+
+                .fa-check {
+                    margin-right: 25%;
+                }
+
+                .fa-plus-circle {
+                    margin-right: 20px;
+                }
+
+                .fa-sort {
+                    position: absolute;
+                    top: 20px;
+                    left: 5%;
+                }
             }
         }
     }
 }
 
-#addModal {
+.addModal {
     position: fixed;
     top: 0;
     left: 0;
@@ -180,12 +297,12 @@ input[type="text"] {
     height: 100%;
 
     .addModalDiv {
-        margin-top: 20%;
+        margin-top: 10%;
         display: flex;
         flex-direction: column;
         background-color: #fff;
         width: 50%;
-        height: 280px;
+        height: 350px;
 
         span {
             text-align: end;
@@ -205,7 +322,7 @@ input[type="text"] {
         }
 
         input[type="text"] {
-            margin-top: 10%;
+            margin-top: 5%;
             height: 15%;
             width: 80%;
             font-size: 18px;
@@ -213,29 +330,26 @@ input[type="text"] {
             border-radius: 5px;
         }
 
-        input[type="text"]:focus {
-            outline: none;
-        }
-
         .buttonDiv {
             text-align: end;
             width: 80%;
 
-            #addBtn {
-                margin-top: 12%;
-                width: 50%;
+            .addBtn {
+                margin-top: 8%;
+                width: 40%;
                 height: 60%;
                 font-size: 16px;
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;
                 background-color: $yellow;
+                transition: all 0.3s;
             }
         }
     }
 }
 
-#colorModal {
+.colorModal {
     position: fixed;
     top: 0;
     left: 0;
@@ -244,12 +358,12 @@ input[type="text"] {
     height: 100%;
 
     .colorModalDiv {
-        margin-top: 20%;
+        margin-top: 10%;
         display: flex;
         flex-direction: column;
         background-color: #fff;
         width: 50%;
-        height: 320px;
+        height: 400px;
 
         span {
             text-align: end;
@@ -281,90 +395,98 @@ input[type="text"] {
                 cursor: pointer;
             }
 
-            #red {
+            .red {
                 background-color: $red;
+                transition: all 0.3s;
+
+                &:hover {
+                    background-color: $dark-red;
+                }
             }
 
-            #red:hover {
-                background-color: $dark-red;
-            }
-
-            #orange {
+            .orange {
                 background-color: $orange;
+                transition: all 0.3s;
+
+                &:hover {
+                    background-color: $dark-orange;
+                }
             }
 
-            #orange:hover {
-                background-color: $dark-orange;
-            }
-
-            #yellow {
+            .yellow {
                 background-color: $yellow;
+                transition: all 0.3s;
+
+                &:hover {
+                    background-color: $dark-yellow;
+                }
             }
 
-            #yellow:hover {
-                background-color: $dark-yellow;
-            }
-
-            #green {
+            .green {
                 background-color: $green;
+                transition: all 0.3s;
+
+                &:hover {
+                    background-color: $dark-green;
+                }
             }
 
-            #green:hover {
-                background-color: $dark-green;
-            }
-
-            #blue {
+            .blue {
                 background-color: $blue;
+                transition: all 0.3s;
+
+                &:hover {
+                    background-color: $dark-blue;
+                }
             }
 
-            #blue:hover {
-                background-color: $dark-blue;
-            }
-
-            #indigo {
+            .indigo {
                 background-color: $indigo;
+                transition: all 0.3s;
+
+                &:hover {
+                    background-color: $dark-indigo;
+                }
             }
 
-            #indigo:hover {
-                background-color: $dark-indigo;
-            }
-
-            #purple {
+            .purple {
                 background-color: $purple;
+                transition: all 0.3s;
+
+                &:hover {
+                    background-color: $dark-purple;
+                }
             }
 
-            #purple:hover {
-                background-color: $dark-purple;
-            }
-
-            #pink {
+            .pink {
                 background-color: $pink;
+                transition: all 0.3s;
+
+                &:hover {
+                    background-color: $dark-pink;
+                }
             }
 
-            #pink:hover {
-                background-color: $dark-pink;
-            }
-
-            #gray {
+            .gray {
                 background-color: $gray;
+                transition: all 0.3s;
+
+                &:hover {
+                    background-color: $dark-gray;
+                }
             }
 
-            #gray:hover {
-                background-color: $dark-gray;
-            }
-
-            #black {
+            .black {
                 background-color: $black;
-            }
+                transition: all 0.3s;
 
-            #black:hover {
-                background-color: $dark-black;
+                &:hover {
+                    background-color: $dark-black;
+                }
             }
         }
     }
 }
-
-
 
 // 紅
 .indexRedTheme {
@@ -376,19 +498,23 @@ input[type="text"] {
     .todoInlineDiv {
         background-color: $red;
 
-        .todoItem {
+        .indexUl,
+        .editUl {
 
-            &:hover {
-                background-color: $hover-red;
+            .todoItem {
+
+                &:hover {
+                    background-color: $hover-red;
+                }
             }
         }
     }
 
-    #addModal {
+    .addModal {
 
         .addModalDiv {
 
-            #addBtn {
+            .addBtn {
                 background-color: $red;
 
                 &:hover {
@@ -409,19 +535,23 @@ input[type="text"] {
     .todoInlineDiv {
         background-color: $orange;
 
-        .todoItem {
+        .indexUl,
+        .editUl {
 
-            &:hover {
-                background-color: $hover-orange;
+            .todoItem {
+
+                &:hover {
+                    background-color: $hover-orange;
+                }
             }
         }
     }
 
-    #addModal {
+    .addModal {
 
         .addModalDiv {
 
-            #addBtn {
+            .addBtn {
                 background-color: $orange;
 
                 &:hover {
@@ -442,19 +572,23 @@ input[type="text"] {
     .todoInlineDiv {
         background-color: $yellow;
 
-        .todoItem {
+        .indexUl,
+        .editUl {
 
-            &:hover {
-                background-color: $hover-yellow;
+            .todoItem {
+
+                &:hover {
+                    background-color: $hover-yellow;
+                }
             }
         }
     }
 
-    #addModal {
+    .addModal {
 
         .addModalDiv {
 
-            #addBtn {
+            .addBtn {
                 background-color: $yellow;
 
                 &:hover {
@@ -475,19 +609,23 @@ input[type="text"] {
     .todoInlineDiv {
         background-color: $green;
 
-        .todoItem {
+        .indexUl,
+        .editUl {
 
-            &:hover {
-                background-color: $hover-green;
+            .todoItem {
+
+                &:hover {
+                    background-color: $hover-green;
+                }
             }
         }
     }
 
-    #addModal {
+    .addModal {
 
         .addModalDiv {
 
-            #addBtn {
+            .addBtn {
                 background-color: $green;
 
                 &:hover {
@@ -508,19 +646,23 @@ input[type="text"] {
     .todoInlineDiv {
         background-color: $blue;
 
-        .todoItem {
+        .indexUl,
+        .editUl {
 
-            &:hover {
-                background-color: $hover-blue;
+            .todoItem {
+
+                &:hover {
+                    background-color: $hover-blue;
+                }
             }
         }
     }
 
-    #addModal {
+    .addModal {
 
         .addModalDiv {
 
-            #addBtn {
+            .addBtn {
                 background-color: $blue;
 
                 &:hover {
@@ -541,19 +683,23 @@ input[type="text"] {
     .todoInlineDiv {
         background-color: $indigo;
 
-        .todoItem {
+        .indexUl,
+        .editUl {
 
-            &:hover {
-                background-color: $hover-indigo;
+            .todoItem {
+
+                &:hover {
+                    background-color: $hover-indigo;
+                }
             }
         }
     }
 
-    #addModal {
+    .addModal {
 
         .addModalDiv {
 
-            #addBtn {
+            .addBtn {
                 background-color: $indigo;
 
                 &:hover {
@@ -574,19 +720,23 @@ input[type="text"] {
     .todoInlineDiv {
         background-color: $purple;
 
-        .todoItem {
+        .indexUl,
+        .editUl {
 
-            &:hover {
-                background-color: $hover-purple;
+            .todoItem {
+
+                &:hover {
+                    background-color: $hover-purple;
+                }
             }
         }
     }
 
-    #addModal {
+    .addModal {
 
         .addModalDiv {
 
-            #addBtn {
+            .addBtn {
                 background-color: $purple;
 
                 &:hover {
@@ -607,19 +757,23 @@ input[type="text"] {
     .todoInlineDiv {
         background-color: $pink;
 
-        .todoItem {
+        .indexUl,
+        .editUl {
 
-            &:hover {
-                background-color: $hover-pink;
+            .todoItem {
+
+                &:hover {
+                    background-color: $hover-pink;
+                }
             }
         }
     }
 
-    #addModal {
+    .addModal {
 
         .addModalDiv {
 
-            #addBtn {
+            .addBtn {
                 background-color: $pink;
 
                 &:hover {
@@ -640,19 +794,23 @@ input[type="text"] {
     .todoInlineDiv {
         background-color: $gray;
 
-        .todoItem {
+        .indexUl,
+        .editUl {
 
-            &:hover {
-                background-color: $hover-gray;
+            .todoItem {
+
+                &:hover {
+                    background-color: $hover-gray;
+                }
             }
         }
     }
 
-    #addModal {
+    .addModal {
 
         .addModalDiv {
 
-            #addBtn {
+            .addBtn {
                 background-color: $gray;
 
                 &:hover {
@@ -675,19 +833,23 @@ input[type="text"] {
         background-color: $black;
         color: #fff;
 
-        .todoItem {
+        .indexUl,
+        .editUl {
 
-            &:hover {
-                background-color: $hover-black;
+            .todoItem {
+
+                &:hover {
+                    background-color: $hover-black;
+                }
             }
         }
     }
 
-    #addModal {
+    .addModal {
 
         .addModalDiv {
 
-            #addBtn {
+            .addBtn {
                 background-color: $black;
                 color: #fff;
 
@@ -699,35 +861,14 @@ input[type="text"] {
     }
 }
 
-@media screen and (min-width:1200px) {
-    #addModal {
-
-        .addModalDiv {
-            margin-top: 10%;
-            height: 400px;
-
-            .buttonDiv {
-                #addBtn {
-                    font-size: 18px;
-                }
-            }
-        }
-    }
-
-    #colorModal {
-
-        .colorModalDiv {
-            margin-top: 10%;
-            height: 400px;
-        }
-    }
-}
+@media screen and (min-width:1200px) {}
 
 @media screen and (min-width:920px) {}
 
 @media screen and (min-width:768px) {}
 
 @media screen and (max-width:576px) {
+
     .todoTitle {
         width: 100%;
     }
@@ -736,7 +877,7 @@ input[type="text"] {
         width: 100%;
     }
 
-    #addModal {
+    .addModal {
 
         .addModalDiv {
             margin-top: 20%;
@@ -746,7 +887,7 @@ input[type="text"] {
             .buttonDiv {
                 width: 80%;
 
-                #addBtn {
+                .addBtn {
                     width: 100%;
                     height: 40px;
                 }
@@ -754,7 +895,7 @@ input[type="text"] {
         }
     }
 
-    #colorModal {
+    .colorModal {
 
         .colorModalDiv {
             margin-top: 20%;

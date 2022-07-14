@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, CdkDrag } from '@angular/cdk/drag-drop';
 
 interface todo {
   id: number,
@@ -18,6 +19,7 @@ export class AppComponent implements OnInit {
   isEditModeOpen = false;
   isAddModalOpen = false;
   isColorModalOpen = false;
+  isDragOpen = false;
   changeTitle = "";
   editTitle = "";
   
@@ -30,7 +32,7 @@ export class AppComponent implements OnInit {
     { id: 3, title: '繳錢', isComplete: false, isEditTitleOpen: false },
   ];
 
-  ngOnInit(){
+  ngOnInit():void {
     if(this.storeTodoList == ""){
       this.storeTodoList = this.todoList;
     }
@@ -79,7 +81,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("主題顏色",JSON.stringify(this.storeIndexTheme));
   }
 
-  addTodoItem(item: any) {
+  addTodoItem(item: any):void {
     this.storeTodoList.push(item);
     this.isAddModalOpen = !this.isAddModalOpen;
     localStorage.setItem("代辦事項",JSON.stringify(this.storeTodoList));
@@ -105,6 +107,19 @@ export class AppComponent implements OnInit {
   
   deleteTodoItem(item: any):void {
     this.storeTodoList = this.storeTodoList.filter((e: todo) => e.id !== item);
+    localStorage.setItem("代辦事項",JSON.stringify(this.storeTodoList));
+  }
+
+  judgeDragOpen():void {
+    this.isDragOpen = true;
+  }
+
+  judgeDragClose():void {
+    this.isDragOpen = false;
+  }
+
+  drop(event: CdkDragDrop<string[]>):void {
+    moveItemInArray(this.storeTodoList, event.previousIndex, event.currentIndex);
     localStorage.setItem("代辦事項",JSON.stringify(this.storeTodoList));
   }
 

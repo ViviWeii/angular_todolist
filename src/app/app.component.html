@@ -1,7 +1,6 @@
-<section id="index" [ngClass]="storeIndexTheme">
-  <div id="todoIndex" class="todoDiv" *ngIf="!isEditModeOpen">
-    <div
-      class="todoTitle" id="indexTitle">
+<section [ngClass]="storeIndexTheme">
+  <div class="todoDiv" *ngIf="!isEditModeOpen">
+    <div class="todoTitle">
       <div class="todoInlineTitle">
         <h1>代辦事項</h1>
         <div class="todoSpan">
@@ -12,26 +11,24 @@
       </div>
     </div>
     <div class="todoInlineDiv">
-      <form>
-        <ul
-          id="indexUl" *ngFor="let i of storeTodoList">
-          <li class="todoItem">
-            <input type="checkbox" [name]="i.id" [id]="i.id"
-              [checked]="i.isComplete" (change)="changeComplete($event)"
-            />
-            <label [for]="i.id">
-              <div class="todoInlineItem {{ i.isComplete ? 'complete' : '' }}">
-                <p>{{ i.title }}</p>
-                <span *ngIf="i.isComplete"><i class="fas fa-check"></i></span>
-              </div>
-            </label>
-          </li>
-        </ul>
-      </form>
+      <ul class="indexUl" *ngFor="let i of storeTodoList">
+        <li class="todoItem">
+          <input type="checkbox" [name]="i.id" [id]="i.id"
+            [checked]="i.isComplete" (change)="changeComplete(i)"/>
+          <label [for]="i.id">
+            <div class="todoInlineItem {{ i.isComplete ? 'complete' : '' }}">
+              <p>{{ i.title }}</p>
+              <span *ngIf="i.isComplete">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </label>
+        </li>
+      </ul>
     </div>
   </div>
-  <div id="todoEdit" class="todoDiv" *ngIf="isEditModeOpen">
-    <div class="todoTitle" id="editTitle">
+  <div class="todoDiv" *ngIf="isEditModeOpen">
+    <div class="todoTitle">
       <div class="todoInlineTitle">
         <h1>代辦事項</h1>
         <div class="todoSpan">
@@ -44,24 +41,28 @@
         </div>
       </div>
     </div>
-    <div class="todoInlineDiv">
-      <ul id="editUl">
+    <div class="todoInlineDiv" cdkDropList (cdkDropListDropped)="drop($event)">
+      <ul class="editUl">
         <li id="addItem" class="todoItem" (click)="openAddModal()">
           <div class="todoInlineItem">
             <div>
-              <p><i class="fas fa-plus-circle"></i>添加項目</p>
+              <p class="addItemP">
+                <i class="fas fa-plus-circle"></i>添加項目
+              </p>
             </div>
           </div>
         </li>
-        <li class="todoItem" *ngFor="let i of storeTodoList">
+        <li class="todoItem" *ngFor="let i of storeTodoList" cdkDrag 
+          (mousedown)=" isDragOpen ? '' : judgeDragOpen() " (mouseenter)=" isDragOpen ? judgeDragClose() : '' ">
           <div class="todoInlineItem {{ i.isComplete ? 'complete' : '' }}">
             <div>
+              <i class="fas fa-sort" *ngIf="!i.isEditTitleOpen" [style.display]=" isDragOpen ? 'none' : '' "></i>
               <input type="checkbox" [name]="i.id" [id]="i.id" [checked]="i.isEditTitleOpen" (change)="openOrCloseEdit($event)">
               <label [for]="i.id">
                 <p *ngIf="!i.isEditTitleOpen">{{i.title}}</p>
                 <input *ngIf="i.isEditTitleOpen" type="text" [(ngModel)]="changeTitle">
               </label>
-              <span *ngIf="!i.isEditTitleOpen" (click)="deleteTodoItem(i.id)">
+              <span *ngIf="!i.isEditTitleOpen" (click)="deleteTodoItem(i.id)" [style.opacity]=" isDragOpen ? 0 : 1 ">
                 <i class="fas fa-trash"></i>
               </span>
               <span *ngIf="i.isEditTitleOpen" class="editSpan">
@@ -78,8 +79,7 @@
   </div>
 </section>
 
-<app-addModal *ngIf="isAddModalOpen" [storeIndexTheme]="storeIndexTheme" (openModal)="openAddModal()" (addList)="addTodoItem($event)">
+<app-addModal *ngIf="isAddModalOpen" [storeIndexTheme]="storeIndexTheme" (openModal)="openAddModal()" (biClose)="addTodoItem($event)">
 </app-addModal>
-<app-colorModal *ngIf="isColorModalOpen"
-  (openModal)="openColorModal()" (changeThemeColor)="changeColor($event)">
+<app-colorModal *ngIf="isColorModalOpen" (openModal)="openColorModal()" (changeThemeColor)="changeColor($event)">
 </app-colorModal>

@@ -13,11 +13,11 @@ export class ColorModalComponent {
   @Output() openModal = new EventEmitter<any>();
   @Output() changeThemeColor = new EventEmitter<any>();
 
-  openColorModal() {
+  openColorModal():void {
     this.openModal.emit();
   }
     
-  changeColor(themeColor: string) {
+  changeColor(themeColor: string):void {
     this.changeThemeColor.emit({color: themeColor});
   }
   

@@ -1,18 +1,20 @@
-<div id="colorModal" *ngIf="!isColorModalOpen">
+<div class="colorModal" *ngIf="!isColorModalOpen">
   <div class="colorModalDiv">
-    <span><i class="fas fa-times" (click)="openColorModal()"></i></span>
+    <span>
+      <i class="fas fa-times" (click)="openColorModal()"></i>
+    </span>
     <p>更換顏色</p>
     <div class="buttonDiv">
-      <input type="button" id="red" (click)='changeColor("indexRedTheme")' alt="紅色" />
-      <input type="button" id="orange" (click)='changeColor("indexOrangeTheme")' alt="橘色" />
-      <input type="button" id="yellow" (click)='changeColor("indexYellowTheme")' alt="預設黃色" />
-      <input type="button" id="green" (click)='changeColor("indexGreenTheme")' alt="綠色" />
-      <input type="button" id="blue" (click)='changeColor("indexBlueTheme")' alt="藍色" />
-      <input type="button" id="indigo" (click)='changeColor("indexIndigoTheme")' alt="靛色" />
-      <input type="button" id="purple" (click)='changeColor("indexPurpleTheme")' alt="紫色" />
-      <input type="button" id="pink" (click)='changeColor("indexPinkTheme")' alt="粉色" />
-      <input type="button" id="gray" (click)='changeColor("indexGrayTheme")' alt="灰色" />
-      <input type="button" id="black" (click)='changeColor("indexBlackTheme")' alt="黑色" />
+      <input type="button" class="red" (click)='changeColor("indexRedTheme")'/>
+      <input type="button" class="orange" (click)='changeColor("indexOrangeTheme")'/>
+      <input type="button" class="yellow" (click)='changeColor("indexYellowTheme")'/>
+      <input type="button" class="green" (click)='changeColor("indexGreenTheme")'/>
+      <input type="button" class="blue" (click)='changeColor("indexBlueTheme")'/>
+      <input type="button" class="indigo" (click)='changeColor("indexIndigoTheme")'/>
+      <input type="button" class="purple" (click)='changeColor("indexPurpleTheme")'/>
+      <input type="button" class="pink" (click)='changeColor("indexPinkTheme")'/>
+      <input type="button" class="gray" (click)='changeColor("indexGrayTheme")'/>
+      <input type="button" class="black" (click)='changeColor("indexBlackTheme")'/>
     </div>
   </div>
 </div>
