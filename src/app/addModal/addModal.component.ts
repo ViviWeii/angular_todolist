@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Todo } from '../interface';
 
 @Component({
   selector: 'app-addModal',
@@ -8,22 +9,26 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 export class AddModalComponent {
 
-  isAddModalOpen = false;
-  inputValue = '';
-  list = { id: Math.round(Math.random() * 1000), title: '', isComplete: false, isEditTitleOpen: false };
+  addModalOpened = false;
+  inputValue = "";
+  item: Todo = { id: 1, title: "", completed: false, editTitleOpened: false };
 
-  @Input() storeIndexTheme = '';
-  @Output() openModal = new EventEmitter<any>();
-  @Output() biClose = new EventEmitter<any>();
+  @Input() storeTodoList: Todo[] = [];
+  @Input() storeIndexTheme = "";
+  @Output() openModal = new EventEmitter<boolean>();
+  @Output() closeModal = new EventEmitter<Todo>();
 
-  openAddModal():void {
+  colseAddModal():void {
     this.openModal.emit();
   }
 
   addTodoItem():void {
-    this.list.title = this.inputValue;
-    this.biClose.emit(this.list);
-    this.inputValue = '';
+    this.item.title = this.inputValue;
+    this.storeTodoList.forEach( i => {
+      this.item.id = Math.max(i.id) + 1;
+    });
+    this.closeModal.emit(this.item);
+    this.inputValue = "";
   }
 
 }

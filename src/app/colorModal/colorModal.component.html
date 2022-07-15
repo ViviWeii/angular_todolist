@@ -1,20 +1,20 @@
-<div class="colorModal" *ngIf="!isColorModalOpen">
+<div class="colorModal" *ngIf="!colorModalOpened">
   <div class="colorModalDiv">
     <span>
-      <i class="fas fa-times" (click)="openColorModal()"></i>
+      <i class="fas fa-times" (click)="closeColorModal()"></i>
     </span>
     <p>更換顏色</p>
     <div class="buttonDiv">
-      <input type="button" class="red" (click)='changeColor("indexRedTheme")'/>
-      <input type="button" class="orange" (click)='changeColor("indexOrangeTheme")'/>
-      <input type="button" class="yellow" (click)='changeColor("indexYellowTheme")'/>
-      <input type="button" class="green" (click)='changeColor("indexGreenTheme")'/>
-      <input type="button" class="blue" (click)='changeColor("indexBlueTheme")'/>
-      <input type="button" class="indigo" (click)='changeColor("indexIndigoTheme")'/>
-      <input type="button" class="purple" (click)='changeColor("indexPurpleTheme")'/>
-      <input type="button" class="pink" (click)='changeColor("indexPinkTheme")'/>
-      <input type="button" class="gray" (click)='changeColor("indexGrayTheme")'/>
-      <input type="button" class="black" (click)='changeColor("indexBlackTheme")'/>
+      <input type="button" class="red" (click)="changeColor('indexRedTheme')"/>
+      <input type="button" class="orange" (click)="changeColor('indexOrangeTheme')"/>
+      <input type="button" class="yellow" (click)="changeColor('indexYellowTheme')"/>
+      <input type="button" class="green" (click)="changeColor('indexGreenTheme')"/>
+      <input type="button" class="blue" (click)="changeColor('indexBlueTheme')"/>
+      <input type="button" class="indigo" (click)="changeColor('indexIndigoTheme')"/>
+      <input type="button" class="purple" (click)="changeColor('indexPurpleTheme')"/>
+      <input type="button" class="pink" (click)="changeColor('indexPinkTheme')"/>
+      <input type="button" class="gray" (click)="changeColor('indexGrayTheme')"/>
+      <input type="button" class="black" (click)="changeColor('indexBlackTheme')"/>
     </div>
   </div>
 </div>

@@ -8,17 +8,17 @@ import { Component, Output, EventEmitter } from '@angular/core';
 
 export class ColorModalComponent {
 
-  isColorModalOpen = false;
+  colorModalOpened = false;
 
-  @Output() openModal = new EventEmitter<any>();
-  @Output() changeThemeColor = new EventEmitter<any>();
+  @Output() openModal = new EventEmitter<boolean>();
+  @Output() changeThemeColor = new EventEmitter<string>();
 
-  openColorModal():void {
+  closeColorModal():void {
     this.openModal.emit();
   }
     
   changeColor(themeColor: string):void {
-    this.changeThemeColor.emit({color: themeColor});
+    this.changeThemeColor.emit(themeColor);
   }
   
 }

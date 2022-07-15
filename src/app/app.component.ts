@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, CdkDrag } from '@angular/cdk/drag-drop';
-
-interface todo {
-  id: number,
-  isComplete: boolean,
-  title: string,
-  isEditTitleOpen: boolean
-}
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Todo } from './interface';
 
 @Component({
   selector: 'app-root',
@@ -16,111 +10,110 @@ interface todo {
 
 export class AppComponent implements OnInit {
 
-  isEditModeOpen = false;
-  isAddModalOpen = false;
-  isColorModalOpen = false;
-  isDragOpen = false;
+  STORAGE_LIST = "代辦事項";
+  STORAGE_THEME = "主題顏色";
+  editModeOpened = false;
+  addModalOpened = false;
+  colorModalOpened = false;
+  dragOpened = false;
   changeTitle = "";
-  editTitle = "";
-  
-  storeIndexTheme = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem("主題顏色"))));
-  storeTodoList = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem("代辦事項"))));
-
-  todoList = [
-    { id: 1, title: '運動', isComplete: false, isEditTitleOpen: false },
-    { id: 2, title: '買花', isComplete: true, isEditTitleOpen: false },
-    { id: 3, title: '繳錢', isComplete: false, isEditTitleOpen: false },
-  ];
+  storeIndexTheme = "";
+  storeTodoList: Todo[] = [];
 
   ngOnInit():void {
-    if(this.storeTodoList == ""){
-      this.storeTodoList = this.todoList;
+    const list = localStorage.getItem(this.STORAGE_LIST);
+    if (list) {
+      this.storeTodoList = JSON.parse(list);
     }
-    localStorage.setItem("代辦事項",JSON.stringify(this.storeTodoList));
-    localStorage.setItem("主題顏色",JSON.stringify(this.storeIndexTheme));
+    const theme = localStorage.getItem(this.STORAGE_THEME);
+    if (theme) {
+      this.storeIndexTheme = theme;
+    }
+  }
+
+  private save() {
+    localStorage.setItem(this.STORAGE_LIST,JSON.stringify(this.storeTodoList));
   }
 
   changeEditMode():void {
-    this.isEditModeOpen = !this.isEditModeOpen;
+    this.editModeOpened = !this.editModeOpened;
+    this.storeTodoList.forEach( i => {
+      i.editTitleOpened = false;
+    });
   }
 
   openAddModal():void {
-    this.isAddModalOpen = !this.isAddModalOpen;
+    this.addModalOpened = !this.addModalOpened;
   }
 
   openColorModal():void {
-    this.isColorModalOpen = !this.isColorModalOpen;
+    this.colorModalOpened = !this.colorModalOpened;
   }
 
-  changeComplete(item: any):void {
-    this.storeTodoList.forEach(
-      (i: todo) => {
-      if (i.id == item.target.id) {
-        i.isComplete = item.target.checked;
-      }
-    });
-    localStorage.setItem("代辦事項",JSON.stringify(this.storeTodoList));
-  }
-
-  openOrCloseEdit(item: any):void {
-    this.storeTodoList.forEach(
-      (i: todo) => {
-      if(i.isEditTitleOpen == true){
-        i.isEditTitleOpen = false;
-        this.changeTitle = "";
-      }
-      if (i.id == item.target.id) {
-        i.isEditTitleOpen = item.target.checked;
-      }
-    });
-    localStorage.setItem("代辦事項",JSON.stringify(this.storeTodoList));
+  changeComplete(item: Todo):void {
+    item.completed = !item.completed;
+    this.save();
   }
 
   changeColor(themeColor: any):void {
-    this.storeIndexTheme = themeColor.color;
-    localStorage.setItem("主題顏色",JSON.stringify(this.storeIndexTheme));
+    this.storeIndexTheme = themeColor;
+    localStorage.setItem(this.STORAGE_THEME,this.storeIndexTheme);
   }
 
-  addTodoItem(item: any):void {
+  openOrCloseEdit(item: Todo):void {
+    this.storeTodoList.forEach( i => {
+      if(i.editTitleOpened){
+        i.editTitleOpened = false;
+        this.changeTitle = "";
+      }
+      if (i.id == item.id) {
+        i.editTitleOpened = !i.editTitleOpened;
+      }
+    });
+    this.save();
+  }
+
+  closeEdit(id: number){
+    this.storeTodoList.forEach( i => {
+      if (i.id == id) {
+        i.editTitleOpened = false;
+      }
+    });
+  }
+
+  addTodoItem(item: Todo):void {
+    this.addModalOpened = !this.addModalOpened;
     this.storeTodoList.push(item);
-    this.isAddModalOpen = !this.isAddModalOpen;
-    localStorage.setItem("代辦事項",JSON.stringify(this.storeTodoList));
+    this.save();
   }
 
-  editTodoTitleComplete(title: string){
-    this.storeTodoList.forEach(
-      (i: todo) => {
-        if(this.changeTitle == ""){
-          i.isEditTitleOpen = false;
-          return;
-        }
-        if(title == i.title){
-          i.title = this.changeTitle;
-          i.isEditTitleOpen = false;
-          this.changeTitle = "";
-          return;
+  editTodoTitleComplete():void {
+    this.storeTodoList.forEach( i => {
+        if(!this.changeTitle){
+          i.editTitleOpened = false;
         }
       }
     );
-    localStorage.setItem("代辦事項",JSON.stringify(this.storeTodoList));
+    this.save();
   }
   
-  deleteTodoItem(item: any):void {
-    this.storeTodoList = this.storeTodoList.filter((e: todo) => e.id !== item);
-    localStorage.setItem("代辦事項",JSON.stringify(this.storeTodoList));
+  deleteTodoItem(index: any):void {
+    // this.storeTodoList = this.storeTodoList.filter( e => e.id !== item);
+    this.storeTodoList.splice(index,1);
+    this.save();
   }
 
   judgeDragOpen():void {
-    this.isDragOpen = true;
+    this.dragOpened = true;
   }
 
   judgeDragClose():void {
-    this.isDragOpen = false;
+    this.dragOpened = false;
   }
 
   drop(event: CdkDragDrop<string[]>):void {
     moveItemInArray(this.storeTodoList, event.previousIndex, event.currentIndex);
-    localStorage.setItem("代辦事項",JSON.stringify(this.storeTodoList));
+    this.save();
   }
 
 }
